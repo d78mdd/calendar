@@ -7,6 +7,7 @@ const Database = require("@replit/database")
 
 app.get('/', (req, res) => {
   
+
   // "method" 1 :p
 
   let january = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31]
@@ -30,12 +31,12 @@ app.get('/', (req, res) => {
     february = february1
   }
   */
-  let year = [...january, ...february, ...march]
+  let year = [...january, ...february, ...march, ...april, ...may, ...june, ...july, ...august, ...september, ...october, ...november, ...december]
 
   console.log(year)
 
 
-  res.send('Hello Express app!')
+  res.send(year)
 });
 
 app.listen(3000, () => {
@@ -50,7 +51,7 @@ db.set("january", "31").then(() => {});
 
 
 db.list().then(keys => {
-  console.log(keys)  
+  //console.log(keys)  
 });
 
 
