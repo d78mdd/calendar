@@ -66,13 +66,13 @@ To determine whether a year is a leap year, follow these steps:
 4. The year is a leap year (it has 366 days).
 5. The year is not a leap year (it has 365 days).
 */
-
+/*
   if () {
     february = february2  //a leap year
   } else {
     february = february1  //not a leap year
   }
-  
+  */
   
   
   let year = [...january, ...february, ...march, ...april, ...may, ...june, ...july, ...august, ...september, ...october, ...november, ...december]
@@ -80,7 +80,7 @@ To determine whether a year is a leap year, follow these steps:
   console.log(year)
 
 
-  res.send(year)
+  res.sendFile(__dirname + "/index.html")
 });
 
 app.listen(3000, () => {
