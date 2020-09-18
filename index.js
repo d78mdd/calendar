@@ -15,12 +15,24 @@ const app = express();
 
 const Database = require("@replit/database")
 
+const parser = require('body-parser')
 
+app.use(parser.urlencoded({extended:false}))
+app.use(parser.json())
+
+
+
+app.get('/', (req, res) => {
+  res.sendFile(__dirname + "/index.html")
+});
+
+
+  
 
 /*
-how would i pass the dates?
+pass the dates
 
-by post req.body using a form?
+by post req.body using a form
   {
     dayS:
     monthS:
@@ -28,16 +40,9 @@ by post req.body using a form?
     monthE:
     year:
   }
-
-in the url
-req.query?
-  http.../<day>/<month>/<day>/<month>/<year>/ ?
-req.params?
-  /:dayS/day/:monthS/month/:dayE/day/:monthE/month/:year/year
 */
-app.get('/', (req, res) => {
-  
 
+app.post("/date",function(req,res){
   // "method" 1 :p
 
   let january = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31]
@@ -66,7 +71,7 @@ To determine whether a year is a leap year, follow these steps:
 4. The year is a leap year (it has 366 days).
 5. The year is not a leap year (it has 365 days).
 */
-/*
+  /*
   if () {
     february = february2  //a leap year
   } else {
@@ -77,11 +82,17 @@ To determine whether a year is a leap year, follow these steps:
   
   let year = [...january, ...february, ...march, ...april, ...may, ...june, ...july, ...august, ...september, ...october, ...november, ...december]
 
+
+
   console.log(year)
 
+  res.json(year)
+  // the end result shall be just a number of days
+  // like 364 or 3 or 47
+})
 
-  res.sendFile(__dirname + "/index.html")
-});
+
+
 
 app.listen(3000, () => {
   console.log('server started');
