@@ -23,3 +23,19 @@ db.set("january", "31").then(() => {});
 db.list().then(keys => {
   console.log(keys)  
 });
+
+
+
+
+let january = []
+let february = []
+let march = []
+let april 
+may
+june
+july
+august
+september
+october
+november
+december
