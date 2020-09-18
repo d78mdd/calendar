@@ -1,9 +1,10 @@
 /*
 some info
+using gregorian calendar
 https://docs.microsoft.com/en-us/office/troubleshoot/excel/determine-a-leap-year
 
 ? possible versions
-1 period is withing twelve consecutive months
+1 period is withing twelve consecutive months of any given year
 2 period extends to next year
 3 period can span multiple years
 .. ?5 include hours and minutes and seconds
@@ -16,6 +17,24 @@ const Database = require("@replit/database")
 
 
 
+/*
+how would i pass the dates?
+
+by post req.body using a form?
+  {
+    dayS:
+    monthS:
+    dayE:
+    monthE:
+    year:
+  }
+
+in the url
+req.query?
+  http.../<day>/<month>/<day>/<month>/<year>/ ?
+req.params?
+  /:dayS/day/:monthS/month/:dayE/day/:monthE/month/:year/year
+*/
 app.get('/', (req, res) => {
   
 
