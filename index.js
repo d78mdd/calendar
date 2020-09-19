@@ -119,29 +119,47 @@ do we really need step 2 ?
   let all_days = [january, february, march, april, may, june, july, august, september, october, november, december]
 
 
-  let s = req.body.monthS
-  let e = req.body.monthE
+  let monthS = Number(req.body.monthS)
+  let monthE = Number(req.body.monthE)
+  let dayS = Number(req.body.dayS)
+  let dayE = Number(req.body.dayE)
+  
   let sum = 0
-  for ( i = s; i <= e; i++ ) {
-    
-    if ( s != e ) {     // if period covers multiple months
 
-      if ( i == s ) {   // if current index is starting month
-        let lastDay = names[s].length+1    //last day of starting month
-        sum += lastDay - req.body.dayS
+  console.log(sum)
+ 
+  for ( i = monthS; i <= monthE; i++ ) {
+    let test1 = 0
+    test1 = names[i].length
 
-      } else if ( i>s && i<e ) {   // if current index is a middle month
-        let days = names[i].length+1
+    if ( monthS != monthE ) {     // if period covers multiple months
+
+      if ( i == monthS ) {   // if current index is starting month
+        let lastDay = 0
+        lastDay = names[monthS].length    //last day of starting month
+        sum += lastDay - dayS
+        console.log("i=monthS")
+        console.log(sum + " " + i + " " + test1)
+
+      } else if ( i>monthS && i<monthE ) {   // if current index is a middle month
+        let days = 0
+        days = names[i].length
         sum += days
+        console.log("i between monthS and monthE")
+        console.log(sum + " " + i + " " + test1)
 
-      } else if ( i == e ) {   // if current index is the end month
-        //let startDay = names[s][0]  //start day ot ending month
-        sum += req.body.dayE
+      } else if ( i == monthE ) {   // if current index is the end month
+        //let startDay = names[monthS][0]  //start day ot ending month
+        sum += dayE
+        console.log("i=monthE")
+        console.log(sum + " " + i + " " + test1)
 
       }
 
 
     }
+   
+    
     
 
   }
