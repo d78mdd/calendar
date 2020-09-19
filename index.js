@@ -168,6 +168,41 @@ do we really need step 2 ?
 
 
 
+/*
+sample output:
+> date_diff@1.0.0 start /home/runner/datediff
+> node index.js
+
+server started
+sum=0dayS=6dayE=27
+i=4monthS=4names[monthS].length=30
+sum=24
+i=5names[i].length=31
+sum=55
+i=6names[i].length=30
+sum=85
+i=7names[i].length=31
+sum=116
+i=8names[i].length=31
+sum=147
+i=9
+sum174
+sum=0dayS=6dayE=27
+i=1monthS=1names[monthS].length=31
+sum=25
+i=2names[i].length=29
+sum=54
+i=3
+sum81
+sum=0dayS=6dayE=27
+i=4monthS=4names[monthS].length=30
+sum=24
+i=5
+sum51
+*/
+
+
+
   //console.log(year)
 
   res.json({
