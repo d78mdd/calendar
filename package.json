@@ -1,5 +1,5 @@
 {
-  "name": "calendar",
+  "name": "date_diff",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -7,7 +7,11 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.js"
   },
-  "keywords": [],
+  "keywords": [
+    "date",
+    "difference",
+    "period"
+  ],
   "author": "",
   "license": "ISC",
   "dependencies": {
