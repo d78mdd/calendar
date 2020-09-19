@@ -123,10 +123,12 @@ do we really need step 2 ?
   let monthE = Number(req.body.monthE)
   let dayS = Number(req.body.dayS)
   let dayE = Number(req.body.dayE)
+  // ?? let year = blablalbal ?
+  // and move all up ?
   
   let sum = 0
 
-  console.log(sum)
+  console.log("sum="+sum+"dayS="+dayS+"dayE="+dayE)
  
   for ( i = monthS; i <= monthE; i++ ) {
     let test1 = 0
@@ -138,26 +140,26 @@ do we really need step 2 ?
         let lastDay = 0
         lastDay = names[monthS].length    //last day of starting month
         sum += lastDay - dayS
-        console.log("i=monthS")
-        console.log(sum + " " + i + " " + test1)
+        console.log("i="+i+"monthS="+monthS+"names[monthS].length="+names[monthS].length)
+        console.log("sum="+sum)
 
       } else if ( i>monthS && i<monthE ) {   // if current index is a middle month
         let days = 0
         days = names[i].length
         sum += days
-        console.log("i between monthS and monthE")
-        console.log(sum + " " + i + " " + test1)
+        console.log("i="+i+"names[i].length="+names[i].length)
+        console.log("sum="+sum)
 
       } else if ( i == monthE ) {   // if current index is the end month
         //let startDay = names[monthS][0]  //start day ot ending month
         sum += dayE
-        console.log("i=monthE")
-        console.log(sum + " " + i + " " + test1)
+        console.log("i="+i)
+        console.log("sum"+sum)
 
-      }
+      } /* else    some monstrous error */
 
 
-    }
+    } /* else   // it's all in one calendar month */
    
     
     
@@ -171,7 +173,13 @@ do we really need step 2 ?
   res.json({
     //d1:req.body.dayS,
     //allDays: all_days
-    "req.body":req.body,
+    "req.body":{
+      dayS:dayS,
+      monthS:monthS,
+      dayE:dayE,
+      monthE:monthE,
+      year:req.body.year
+    },
     "sum": sum
     //year:req.body.year
     /*...*/
