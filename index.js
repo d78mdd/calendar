@@ -135,6 +135,10 @@ do we really need step 2 ?
     test1 = names[i].length
 
     if ( monthS != monthE ) {     // if period covers multiple months
+    // for a next version :
+    //if (monthS < monthE)
+    // and below
+    //else if (monthS > monthE)
 
       if ( i == monthS ) {   // if current index is starting month
         let lastDay = 0
@@ -159,7 +163,10 @@ do we really need step 2 ?
       } /* else    some monstrous error */
 
 
-    } /* else   // it's all in one calendar month */
+    } else if ( monthS == monthE ) {   // it's all in one calendar month 
+      sum = dayE - dayS
+      console.log("sum=" + sum )
+    } /* else     some insane error*/
    
     
     
