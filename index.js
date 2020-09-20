@@ -45,7 +45,8 @@ by post req.body using a form
     monthS:
     dayE:
     monthE:
-    year:
+    yearS:
+    yearE:
   }
 */
 
@@ -53,10 +54,21 @@ app.post("/date", function(req, res){
   // "method" 1 :p
     // maybe i dont need arrays , just the day count
 
+
+  // make these cont ?
+  let monthS = Number(req.body.monthS)
+  let monthE = Number(req.body.monthE)
+  let dayS = Number(req.body.dayS)
+  let dayE = Number(req.body.dayE)
+  let yearS = Number(req.body.yearE)
+  let yearE = Number(req.body.yearS)
+  
+
+  // make these const?
   let january = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31]
   let february1 = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28]
   let february2 = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29]
-  let february = []
+
   let march = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31]
   let april = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30]
   let may = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31]
@@ -69,165 +81,125 @@ app.post("/date", function(req, res){
   let december = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31]
   
   
-  
-/*
-To determine whether a year is a leap year, follow these steps:
-
-1. If the year is evenly divisible by 4, go to step 2. Otherwise, go to step 5.
-2. If the year is evenly divisible by 100, go to step 3. Otherwise, go to step 4.
-3. If the year is evenly divisible by 400, go to step 4. Otherwise, go to step 5.
-4. The year is a leap year (it has 366 days).
-5. The year is not a leap year (it has 365 days).
-
-do we really need step 2 ?
-*/
-  
-  if ( req.body.year % 4 == 0 ) {
-
-    if ( req.body.year % 100 == 0 ) {
-      if ( req.body.year % 400 == 0 ) {
-        // leap year
-        february = [...february2]
-      } else {
-        // not a leap year
-        february = [...february1]
-      }
+  function February(y) {
     
+    if ( y % 4 == 0 ) {
+
+      if ( y % 100 == 0 ) {
+        if ( y % 400 == 0 ) {
+          // leap year
+          return [...february2]
+        } else {
+          // not a leap year
+          return [...february1]
+        }
+      
+      } else {
+        return [...february2]
+      }
+
     } else {
-      february = [...february2]
+      return [...february1]
+    }
+ 
+  }
+
+
+
+for (let j = yearS; j <= yearE; j++) {
+
+    // make const ?
+    let names = {
+      1: january,
+      2: February(j),
+      3: march,
+      4: april,
+      5: may,
+      6: june,
+      7: july,
+      8: august,
+      9: september,
+      10: october,
+      11: november,
+      12: december
     }
 
-  } else {
-    february = [...february1]
-  }
-
-  let names = {
-    1: january,
-    2: february,
-    3: march,
-    4: april,
-    5: may,
-    6: june,
-    7: july,
-    8: august,
-    9: september,
-    10: october,
-    11: november,
-    12: december
-  }
- 
-  let all_days = [january, february, march, april, may, june, july, august, september, october, november, december]
-
-
-  let monthS = Number(req.body.monthS)
-  let monthE = Number(req.body.monthE)
-  let dayS = Number(req.body.dayS)
-  let dayE = Number(req.body.dayE)
-  // ?? let year = blablalbal ?
-  // and move all up ?
+    console.log(j["2"])
   
-  let sum = 0
+/*
+    let sum = 0
 
-  console.log("sum="+sum+"dayS="+dayS+"dayE="+dayE)
- 
-  for ( i = monthS; i <= monthE; i++ ) {
-    let test1 = 0
-    test1 = names[i].length
+    console.log("sum="+sum+"dayS="+dayS+"dayE="+dayE)
+  
+    for ( i = monthS; i <= monthE; i++ ) {
+      let test1 = 0
+      test1 = names[i].length
 
-    if ( monthS != monthE ) {     // if period covers multiple months
-    // for a next version :
-    //if (monthS < monthE)
-    // and below
-    //else if (monthS > monthE)
+    
+    //for a next version :
+    //if (yearS == yearE) {
+    //the if(){} code below this comment
+    //} else if (yearS != yearE) {}
+    
+      if ( monthS != monthE ) {     // if period covers multiple months
 
-      if ( i == monthS ) {   // if current index is starting month
-        let lastDay = 0
-        lastDay = names[monthS].length    //last day of starting month
-        sum += lastDay - dayS
-        console.log("i="+i+"monthS="+monthS+"names[monthS].length="+names[monthS].length)
-        console.log("sum="+sum)
+      //also swap monthS and monthE if monthS > monthE
+      
 
-      } else if ( i>monthS && i<monthE ) {   // if current index is a middle month
-        let days = 0
-        days = names[i].length
-        sum += days
-        console.log("i="+i+"names[i].length="+names[i].length)
-        console.log("sum="+sum)
+      
+        if ( i == monthS ) {   // if current index is starting month
+          let lastDay = 0
+          lastDay = names[monthS].length    //last day of starting month
+          sum += lastDay - dayS
+          console.log("i="+i+"monthS="+monthS+"names[monthS].length="+names[monthS].length)
+          console.log("sum="+sum)
 
-      } else if ( i == monthE ) {   // if current index is the end month
-        //let startDay = names[monthS][0]  //start day ot ending month
-        sum += dayE
-        console.log("i="+i)
-        console.log("sum"+sum)
+        } else if ( i>monthS && i<monthE ) {   // if current index is a middle month
+          let days = 0
+          days = names[i].length
+          sum += days
+          console.log("i="+i+"names[i].length="+names[i].length)
+          console.log("sum="+sum)
 
-      } /* else    some monstrous error */
+        } else if ( i == monthE ) {   // if current index is the end month
+          //let startDay = names[monthS][0]  //start day ot ending month
+          sum += dayE
+          console.log("i="+i)
+          console.log("sum"+sum)
+
+        } // else    some monstrous error 
 
 
-    } else if ( monthS == monthE ) {   // it's all in one calendar month 
-      sum = dayE - dayS
-      console.log("sum=" + sum )
-    } /* else     some insane error*/
-   
+      } else if ( monthS == monthE ) {   // it's all in one calendar month
+      // swap dayS and dayE if dayS>dayE
+      //  ? Math.abs(dayE - dayS)
+        sum = dayE - dayS
+        console.log("sum=" + sum )
+      } 
     
     
+
+    }
+    */
 
   }
-
-
-
-/*
-sample output:
-> date_diff@1.0.0 start /home/runner/datediff
-> node index.js
-
-server started
-sum=0dayS=6dayE=27
-i=4monthS=4names[monthS].length=30
-sum=24
-i=5names[i].length=31
-sum=55
-i=6names[i].length=30
-sum=85
-i=7names[i].length=31
-sum=116
-i=8names[i].length=31
-sum=147
-i=9
-sum174
-sum=0dayS=6dayE=27
-i=1monthS=1names[monthS].length=31
-sum=25
-i=2names[i].length=29
-sum=54
-i=3
-sum81
-sum=0dayS=6dayE=27
-i=4monthS=4names[monthS].length=30
-sum=24
-i=5
-sum51
-*/
-
 
 
   //console.log(year)
 
   res.json({
-    //d1:req.body.dayS,
-    //allDays: all_days
     "req.body":{
       dayS:dayS,
       monthS:monthS,
       dayE:dayE,
       monthE:monthE,
-      year:req.body.year
+      //year:req.body.year
     },
-    "sum": sum
-    //year:req.body.year
-    /*...*/
+    //"sum": sum
+
   })
-  // the end result shall be just a number of days
-  // like 364 or 3 or 47
+
+
 })
 
 
