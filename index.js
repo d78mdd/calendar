@@ -17,6 +17,66 @@ possible methods
 2 pull the leap stuff from 
 */
 
+
+/*
+possible inputs:
+  {
+    dayS:
+    monthS:
+    dayE:
+    monthE:
+    yearS:
+    yearE:
+  }
+  
+  {
+    dayS:
+    monthS:
+    dayE:
+    monthE:
+    yearS:
+    yearE:
+  }
+  
+  {
+    dayS:
+    monthS:
+    dayE:
+    monthE:
+    yearS:
+    yearE:
+  }
+  
+  {
+    dayS:
+    monthS:
+    dayE:
+    monthE:
+    yearS:
+    yearE:
+  }
+  
+  {
+    dayS:
+    monthS:
+    dayE:
+    monthE:
+    yearS:
+    yearE:
+  }
+  
+  {
+    dayS:
+    monthS:
+    dayE:
+    monthE:
+    yearS:
+    yearE:
+  }
+  
+*/
+
+
 const express = require('express');
 const app = express();
 
@@ -62,6 +122,11 @@ app.post("/date", function(req, res){
   let dayE = Number(req.body.dayE)
   let yearS = Number(req.body.yearE)
   let yearE = Number(req.body.yearS)
+  // in case of empty input req.body.[...] becomes empty string and the local vars become zeroes
+  // the empty string is a falsy value, the zero - too
+  //they should have default values
+  if ( !monthS ) monthS = 1
+  if ( !monthE  
   
 
   // make these const?
@@ -105,7 +170,7 @@ app.post("/date", function(req, res){
   }
 
 
-
+console.log(req.body)
 for (let j = yearS; j <= yearE; j++) {
 
     // make const ?
@@ -124,7 +189,7 @@ for (let j = yearS; j <= yearE; j++) {
       12: december
     }
 
-    console.log(j["2"])
+    console.log(names["2"])
   
 /*
     let sum = 0
@@ -192,9 +257,9 @@ for (let j = yearS; j <= yearE; j++) {
       dayS:dayS,
       monthS:monthS,
       dayE:dayE,
-      monthE:monthE,
+      monthE:monthE
       //year:req.body.year
-    },
+    }
     //"sum": sum
 
   })

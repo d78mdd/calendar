@@ -1,0 +1,32 @@
+default values
+
+start day - 0
+end day - 31 or 30 or 29 or 28
+
+start month - 1
+end month - 12
+
+start year
+  if end year is empty - then current year
+  if end year is present - then same as end year
+end year
+  if start year is empty - then current year
+  if start year is present - then same as start year
+
+i need two date objects
+startDate{
+  start day , start month, start year
+}
+endDate{
+  end day , end month , end year
+}
+
+if start day is higher than end day and if they are in the same month   and in the same year
+then swap  the objects
+
+if start month is higher than end month   and they are in the same year
+then swap  the objects
+
+if start year is higher than end year
+then swap  the objects
+
