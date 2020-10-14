@@ -18,63 +18,7 @@ possible methods
 */
 
 
-/*
-possible inputs:
-  {
-    dayS:
-    monthS:
-    dayE:
-    monthE:
-    yearS:
-    yearE:
-  }
-  
-  {
-    dayS:
-    monthS:
-    dayE:
-    monthE:
-    yearS:
-    yearE:
-  }
-  
-  {
-    dayS:
-    monthS:
-    dayE:
-    monthE:
-    yearS:
-    yearE:
-  }
-  
-  {
-    dayS:
-    monthS:
-    dayE:
-    monthE:
-    yearS:
-    yearE:
-  }
-  
-  {
-    dayS:
-    monthS:
-    dayE:
-    monthE:
-    yearS:
-    yearE:
-  }
-  
-  {
-    dayS:
-    monthS:
-    dayE:
-    monthE:
-    yearS:
-    yearE:
-  }
-  
-*/
+
 
 
 const express = require('express');
@@ -158,6 +102,8 @@ app.post("/date", function(req, res){
  
   }
 
+ 
+
 // get current date
   let current = {
     d: (new Date).getDate(),
@@ -179,69 +125,109 @@ app.post("/date", function(req, res){
 
   // in case of empty input req.body.[...] becomes empty string and the local vars become zeroes
   // the empty string is a falsy value, the zero - too
-  //they should have default values
 
 
 
-// defaults
-  if ( !yearS ) {
-    if ( !yearE ) {
-      yearS = current.y
-    } else {
-      yearS = yearE
-    }
-  }
-  if ( !yearE ) {
-    if ( !yearS ) {
-      yearE = current.y
-    } else {
-      yearE = yearS
-    }
-  }
-  if ( !monthS ) monthS = 1
-  if ( !monthE ) monthE = 12
-  if ( !dayS ) dayS = 0
- 
- 
-  if ( !dayE ) {
-    if ( monthE == 2 ) {
-      dayE = February(yearE).length  //29 or 28     
-    } else if (monthE==4 || monthE==6 || monthE==9 || monthE==11) {
-      dayE = 30
-    } else {
-      dayE = 31
-    }
-  }
- 
- 
-
-
-
-
-
-//hold user input
-  let date = {
-    current: current,
-    start: {
+  //initial dates objects
+  let start = {
       d: dayS,
       m: monthS,
       y: yearS
-    },
-    end: {
+  }
+  let end = {
       d: dayE,
       m: monthE,
       y: yearE
+  }
+
+  function swap(){
+    let temp = {}
+    temp = start
+    start = end
+    end = temp
+    temp = null
+  }
+
+
+
+
+// defaults/normalize + swap if second date appears smaller
+  if ( !start.y ) {
+    if ( !end.y ) {
+      start.y = current.y
+    } else {
+      start.y = end.y
     }
   }
+  if ( !end.y ) {
+    if ( !start.y ) {
+      end.y = current.y
+    } else {
+      end.y = start.y
+    }
+  }
+
+  // swap 
+  if (start.y > end.y){
+    swap()
+  }
+
+
+  if ( !start.m ) start.m = 1
+  if ( !end.m ) end.m = 12
+
+  //swap
+  if (start.m > end.m  &&  start.y == end.y) {
+    swap()
+  }
+ 
+
+  if ( !start.d ) start.d = 0
+  if ( !end.d ) {
+    if ( end.m == 2 ) {
+      end.d = February(end.y).length  //29 or 28     
+    } else if (end.m==4 || end.m==6 || end.m==9 || end.m==11) {
+      end.d = 30
+    } else {
+      end.d = 31
+    }
+  }
+
+  // swap
+  if (start.d > end.d  &&  start.m == end.m  &&  start.y == end.y){
+    swap()
+  }
+
+
+
+
+
+
+
+
+  //hold user input
+  let date = {
+    current: current,
+    start: start,
+    end: end
+  }
+
+
+
+
+  //check for validity
+  //console.log(new Date(date.start.y,date.start.m,date.start.d))
+  //console.log(new Date(date.end.y,date.end.m,date.end.d))
+
 
 
   
 
 
-//console.log(req.body)
-console.log(date)
+  //console.log(req.body)
+  console.log(date)
 
-for (let j = yearS; j <= yearE; j++) {
+  for (let j = yearS; j <= yearE; j++) {
 
     // make const ?
     let months = {
@@ -261,7 +247,7 @@ for (let j = yearS; j <= yearE; j++) {
 
     //console.log(months["2"])
   
-/*
+  /*
     let sum = 0
 
     console.log("sum="+sum+"dayS="+dayS+"dayE="+dayE)
@@ -357,10 +343,3 @@ db.list().then(keys => {
 });
 
 
-
-server started
-{
-  current: { d: 14, m: 10, y: 2020 },
-  start: { d: 0, m: 1, y: 2020 },
-  end: { d: 31, m: 12, y: 2020 }
-}
