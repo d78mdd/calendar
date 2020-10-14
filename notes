@@ -1,26 +1,6 @@
 
 
 
-if start year is higher than end year
-then swap  the objects
-
-..
-
-if start month is higher than end month   and they are in the same year
-then swap  the objects
-
-..
-
-if start day is higher than end day and if they are in the same month   and in the same year
-then swap  the objects
-
-
-
-
-
-
-
-
 
 
 for another version:
@@ -35,24 +15,6 @@ for another version:
 
 
 
-?
-if an exact start date is entered and only a month for an end
-and that month is smaller than the start date
-it should First do a swap and then defaults
-
-so
-
-
-at this point should first have some version of two triplets be them valid dates or not; done
-they don't have to be final; ok
-
-then
-first default the years; done
-swap if needed
-then default the months
-swap if needed and if in same year
-finally default days
-and swap if needed and if in same year and month
 
 during one date difference calculation exactly one or zero swaps should occur
 

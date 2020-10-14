@@ -113,7 +113,7 @@ app.post("/date", function(req, res){
 
 
 
-  // filter input
+  // filter any letters, symbols, leading zeroes
   let monthS = Number(req.body.monthS)
   let monthE = Number(req.body.monthE)
   let dayS = Number(req.body.dayS)
@@ -139,6 +139,7 @@ app.post("/date", function(req, res){
       m: monthE,
       y: yearE
   }
+
 
   function swap(){
     let temp = {}
@@ -166,23 +167,21 @@ app.post("/date", function(req, res){
       end.y = start.y
     }
   }
-
   // swap 
   if (start.y > end.y){
     swap()
   }
 
-
+  //default
   if ( !start.m ) start.m = 1
   if ( !end.m ) end.m = 12
-
   //swap
   if (start.m > end.m  &&  start.y == end.y) {
     swap()
   }
  
-
-  if ( !start.d ) start.d = 0
+ //default
+  if ( !start.d ) start.d = 1
   if ( !end.d ) {
     if ( end.m == 2 ) {
       end.d = February(end.y).length  //29 or 28     
@@ -192,13 +191,21 @@ app.post("/date", function(req, res){
       end.d = 31
     }
   }
-
   // swap
   if (start.d > end.d  &&  start.m == end.m  &&  start.y == end.y){
     swap()
   }
 
 
+
+  //check for validity // filter unrealistic dates
+
+  if ( start.y < 0 )  start.y = Math.abs(start.y)
+  if ( end.y < 0 )  end.y = Math.abs(end.y)
+  if ( start.m < 0 )  start.m = Math.abs(start.m)
+  if ( end.m < 0 )  end.m = Math.abs(end.m)
+  if ( start.d < 0 )  start.d = Math.abs(start.d)
+  if ( end.d < 0 )  end.d = Math.abs(end.d)
 
 
 
@@ -215,17 +222,12 @@ app.post("/date", function(req, res){
 
 
 
-  //check for validity
-  //console.log(new Date(date.start.y,date.start.m,date.start.d))
-  //console.log(new Date(date.end.y,date.end.m,date.end.d))
-
+   
+  console.log(start, end)
 
 
   
-
-
-  //console.log(req.body)
-  console.log(date)
+  
 
   for (let j = yearS; j <= yearE; j++) {
 
