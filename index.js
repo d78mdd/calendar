@@ -358,4 +358,9 @@ db.list().then(keys => {
 
 
 
-
+server started
+{
+  current: { d: 14, m: 10, y: 2020 },
+  start: { d: 0, m: 1, y: 2020 },
+  end: { d: 31, m: 12, y: 2020 }
+}
