@@ -152,6 +152,19 @@ app.post("/date", function(req, res){
 
 
 
+  // filter negative numbers
+  if ( start.y < 0 )  start.y = Math.abs(start.y)
+  if ( end.y < 0 )  end.y = Math.abs(end.y)
+  if ( start.m < 0 )  start.m = Math.abs(start.m)
+  if ( end.m < 0 )  end.m = Math.abs(end.m)
+  if ( start.d < 0 )  start.d = Math.abs(start.d)
+  if ( end.d < 0 )  end.d = Math.abs(end.d)
+  // although, the year maybe should be able to accept negative numbers
+  // maybe instead of getting the absolute values, they should just be the minimum possible value
+  //   
+
+
+
 // defaults/normalize + swap if second date appears smaller
   if ( !start.y ) {
     if ( !end.y ) {
@@ -198,14 +211,12 @@ app.post("/date", function(req, res){
 
 
 
-  //check for validity // filter unrealistic dates
+  //check for validity // filter unrealistic days and months
+  if ( start.m > 12) {
+    start
+  }
+  
 
-  if ( start.y < 0 )  start.y = Math.abs(start.y)
-  if ( end.y < 0 )  end.y = Math.abs(end.y)
-  if ( start.m < 0 )  start.m = Math.abs(start.m)
-  if ( end.m < 0 )  end.m = Math.abs(end.m)
-  if ( start.d < 0 )  start.d = Math.abs(start.d)
-  if ( end.d < 0 )  end.d = Math.abs(end.d)
 
 
 
