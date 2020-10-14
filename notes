@@ -13,6 +13,11 @@ end year
   if start year is empty - then current year
   if start year is present - then same as start year
 
+
+
+
+
+
 i need two date objects
 startDate{
   start day , start month, start year
@@ -20,6 +25,12 @@ startDate{
 endDate{
   end day , end month , end year
 }
+
+
+
+
+
+"input check"
 
 if start day is higher than end day and if they are in the same month   and in the same year
 then swap  the objects

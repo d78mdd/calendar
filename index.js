@@ -110,30 +110,17 @@ by post req.body using a form
   }
 */
 
+
+
+
 app.post("/date", function(req, res){
   // "method" 1 :p
     // maybe i dont need arrays , just the day count
 
-
-  // make these cont ?
-  let monthS = Number(req.body.monthS)
-  let monthE = Number(req.body.monthE)
-  let dayS = Number(req.body.dayS)
-  let dayE = Number(req.body.dayE)
-  let yearS = Number(req.body.yearE)
-  let yearE = Number(req.body.yearS)
-  // in case of empty input req.body.[...] becomes empty string and the local vars become zeroes
-  // the empty string is a falsy value, the zero - too
-  //they should have default values
-  if ( !monthS ) monthS = 1
-  if ( !monthE  
-  
-
-  // make these const?
+// month-days "templates"
   let january = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31]
   let february1 = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28]
   let february2 = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29]
-
   let march = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31]
   let april = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30]
   let may = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31]
@@ -144,8 +131,10 @@ app.post("/date", function(req, res){
   let october = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31]
   let november = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30]
   let december = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31]
-  
-  
+  // make these const?
+    
+
+// leapness check
   function February(y) {
     
     if ( y % 4 == 0 ) {
@@ -169,12 +158,93 @@ app.post("/date", function(req, res){
  
   }
 
+// get current date
+  let current = {
+    d: (new Date).getDate(),
+    m: (new Date).getMonth()+1,
+    y: (new Date).getFullYear()
+  }
 
-console.log(req.body)
+
+
+  // filter input
+  let monthS = Number(req.body.monthS)
+  let monthE = Number(req.body.monthE)
+  let dayS = Number(req.body.dayS)
+  let dayE = Number(req.body.dayE)
+  let yearS = Number(req.body.yearS)
+  let yearE = Number(req.body.yearE)
+  // make these const ?
+
+
+  // in case of empty input req.body.[...] becomes empty string and the local vars become zeroes
+  // the empty string is a falsy value, the zero - too
+  //they should have default values
+
+
+
+// defaults
+  if ( !yearS ) {
+    if ( !yearE ) {
+      yearS = current.y
+    } else {
+      yearS = yearE
+    }
+  }
+  if ( !yearE ) {
+    if ( !yearS ) {
+      yearE = current.y
+    } else {
+      yearE = yearS
+    }
+  }
+  if ( !monthS ) monthS = 1
+  if ( !monthE ) monthE = 12
+  if ( !dayS ) dayS = 0
+ 
+ 
+  if ( !dayE ) {
+    if ( monthE == 2 ) {
+      dayE = February(yearE).length  //29 or 28     
+    } else if (monthE==4 || monthE==6 || monthE==9 || monthE==11) {
+      dayE = 30
+    } else {
+      dayE = 31
+    }
+  }
+ 
+ 
+
+
+
+
+
+//hold user input
+  let date = {
+    current: current,
+    start: {
+      d: dayS,
+      m: monthS,
+      y: yearS
+    },
+    end: {
+      d: dayE,
+      m: monthE,
+      y: yearE
+    }
+  }
+
+
+  
+
+
+//console.log(req.body)
+console.log(date)
+
 for (let j = yearS; j <= yearE; j++) {
 
     // make const ?
-    let names = {
+    let months = {
       1: january,
       2: February(j),
       3: march,
@@ -189,7 +259,7 @@ for (let j = yearS; j <= yearE; j++) {
       12: december
     }
 
-    console.log(names["2"])
+    //console.log(months["2"])
   
 /*
     let sum = 0
@@ -257,8 +327,9 @@ for (let j = yearS; j <= yearE; j++) {
       dayS:dayS,
       monthS:monthS,
       dayE:dayE,
-      monthE:monthE
-      //year:req.body.year
+      monthE:monthE,
+      yearS:yearS,
+      yearE:yearE
     }
     //"sum": sum
 
