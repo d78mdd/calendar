@@ -113,14 +113,21 @@ app.post("/date", function(req, res){
 
 
 
-  // filter any letters, symbols, leading zeroes
+  // filter any letters, symbols, leading zeroes, negative numbers
   let monthS = Number(req.body.monthS)
   let monthE = Number(req.body.monthE)
   let dayS = Number(req.body.dayS)
   let dayE = Number(req.body.dayE)
   let yearS = Number(req.body.yearS)
   let yearE = Number(req.body.yearE)
+
+  if ( monthS < 0 )  monthS = 0
+  if ( monthE < 0 )  monthE = 0
+  if ( dayS < 0 )  dayS = 0
+  if ( dayE < 0 )  dayE = 0
+
   // make these const ?
+
 
 
   // in case of empty input req.body.[...] becomes empty string and the local vars become zeroes
@@ -152,16 +159,6 @@ app.post("/date", function(req, res){
 
 
 
-  // filter negative numbers
-  if ( start.y < 0 )  start.y = Math.abs(start.y)
-  if ( end.y < 0 )  end.y = Math.abs(end.y)
-  if ( start.m < 0 )  start.m = Math.abs(start.m)
-  if ( end.m < 0 )  end.m = Math.abs(end.m)
-  if ( start.d < 0 )  start.d = Math.abs(start.d)
-  if ( end.d < 0 )  end.d = Math.abs(end.d)
-  // although, the year maybe should be able to accept negative numbers
-  // maybe instead of getting the absolute values, they should just be the minimum possible value
-  //   
 
 
 
