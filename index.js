@@ -75,6 +75,20 @@ app.post("/date", function(req, res){
   let october = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31]
   let november = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30]
   let december = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31]
+  let months = {
+    1: january,
+    2: null,
+    3: march,
+    4: april,
+    5: may,
+    6: june,
+    7: july,
+    8: august,
+    9: september,
+    10: october,
+    11: november,
+    12: december
+  }
   // make these const?
     
 
@@ -113,25 +127,48 @@ app.post("/date", function(req, res){
 
 
 
-  // filter any letters, symbols, leading zeroes, negative numbers
+  // filter any letters, symbols, leading zeroes
   let monthS = Number(req.body.monthS)
   let monthE = Number(req.body.monthE)
   let dayS = Number(req.body.dayS)
   let dayE = Number(req.body.dayE)
   let yearS = Number(req.body.yearS)
   let yearE = Number(req.body.yearE)
+  // in case of empty input req.body.[...] becomes empty string and the local vars become zeroes
+  // the empty string is a falsy value, the zero - too
 
-  if ( monthS < 0 )  monthS = 0
-  if ( monthE < 0 )  monthE = 0
+  //, negative numbers and excessively large months
+  if ( monthS < 0 || monthS > 12 )  monthS = 0
+  if ( monthE < 0 || monthE > 12 )  monthE = 0
   if ( dayS < 0 )  dayS = 0
   if ( dayE < 0 )  dayE = 0
 
-  // make these const ?
+ //, excessively large days
+  let monthSLen
+  if ( monthS == 2 ) {
+    monthSLen = February(yearS).length  //29 or 28     
+  } else if (monthS==4 || monthS==6 || monthS==9 || monthS==11) {
+    monthSLen = 30
+  } else {
+    monthSLen = 31
+  }
+  let monthELen
+  if ( monthE == 2 ) {
+    monthELen = February(yearE).length  //29 or 28     
+  } else if (monthE==4 || monthE==6 || monthE==9 || monthE==11) {
+    monthELen = 30
+  } else {
+    monthELen = 31
+  }
+
+  if ( dayS > monthSLen ) {
+    dayS = 0
+  }
+  if (dayE > monthELen ) {
+    dayE = 0
+  }
 
 
-
-  // in case of empty input req.body.[...] becomes empty string and the local vars become zeroes
-  // the empty string is a falsy value, the zero - too
 
 
 
@@ -208,10 +245,7 @@ app.post("/date", function(req, res){
 
 
 
-  //check for validity // filter unrealistic days and months
-  if ( start.m > 12) {
-    start
-  }
+ 
   
 
 
