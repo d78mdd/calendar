@@ -12,7 +12,7 @@ should work
 addMonth
 should work for
   1 month inside 1 year
-  ? 2 months inside 1 year ?
+  2 months inside 1 year
   middle months
 
 
@@ -25,6 +25,14 @@ exact difference should be fine for
   last month , while adding +1
 
 
+line 288 - ok, now 290
+
+
+
+
+
+
+
 
 
 
@@ -35,6 +43,12 @@ for another version:
 - choose specific default values
 
 ( - count hours, minutes, seconds)
+
+- maybe should not use functions and should not pass params
+- maybe the 2 "month" functions can become 1
+- maybe the 1 main loop and the 1 in addMonths can be abstracted away into one functionality
+- maybe everything can be done with less code   ?
+
 
 
 
