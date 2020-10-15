@@ -75,20 +75,6 @@ app.post("/date", function(req, res){
   let october = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31]
   let november = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30]
   let december = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31]
-  let months = {
-    1: january,
-    2: null,
-    3: march,
-    4: april,
-    5: may,
-    6: june,
-    7: july,
-    8: august,
-    9: september,
-    10: october,
-    11: november,
-    12: december
-  }
   // make these const?
     
 
@@ -126,6 +112,7 @@ app.post("/date", function(req, res){
   }
 
 
+  // ---Start Normalizing---
 
   // filter any letters, symbols, leading zeroes
   let monthS = Number(req.body.monthS)
@@ -171,7 +158,6 @@ app.post("/date", function(req, res){
 
 
 
-
   //initial dates objects
   let start = {
       d: dayS,
@@ -197,9 +183,7 @@ app.post("/date", function(req, res){
 
 
 
-
-
-// defaults/normalize + swap if second date appears smaller
+// defaults + swap if second date appears smaller
   if ( !start.y ) {
     if ( !end.y ) {
       start.y = current.y
@@ -243,35 +227,189 @@ app.post("/date", function(req, res){
     swap()
   }
 
-
-
- 
-  
-
-
-
-
+ // --- End Normalizing---
 
 
 
   //hold user input
   let date = {
-    current: current,
+    //current: current,
     start: start,
     end: end
   }
-
-
-
-
    
-  console.log(start, end)
+  console.log(date)
 
+
+
+ // ---Start Adding---
+ /*
+
+ j - month
+ */
+
+  let sum = 0
+
+  for (let year=start.y; year<=end.y; year++) {
+
+    if  start.y != end.y
+
+      if year == start.y
+
+        //sum+=prependMonths()
+        sum+=addMonths( start.m, 12 ,year)
+
+      else if year > start.y  &&  year < end.y
+
+        sum+= addYear( year )
+
+      else if year == end.y
+
+        //sum+=appendMonths()
+        sum+=addMonths( 1, end.m , year)
+
+    else if  start.y==end.y
+
+      sum+= addMonths ( start.m, end.m , year )
+
+    else
+      some monstrous error
+
+
+  }
+      //add days from one month
+
+      //fromDay = start.d or 1or0
+
+      function addMonth (m, s,e) {     // a month to add given start and end days
+
+        let months = {
+          1: january,
+          2: February(year),
+          3: march,
+          4: april,
+          5: may,
+          6: june,
+          7: july,
+          8: august,
+          9: september,
+          10: october,
+          11: november,
+          12: december
+        }
+      
+        if !s and !e        // if only 1 param is present then add the whole month
+          monthTotal = months(m)
+          return monthTotal
+
+
+        monthTotal = e - s
+      
+        return monthTotal  
+      }
+
+
+      function addMonths(s,e, year) {   // months to add given a start and an end ones; from the start or end year
+        let subsum = 0
+
+        for ( j=s; j<=e; ) {
+
+          if start.m != end.m  &&  start.y != end.y
+          
+            if j == start.m  && year == start.y       // first month of start year
+              sDay = start.d
+              if ( j == 2 ) {
+                eDay = February(year).length  //29 or 28     
+                //eDay = l ? 29 : 28
+              } else if (j==4 || j==6 || j==9 || j==11) {
+                eDay = 30
+              } else {
+                eDay = 31
+              }
+              subsum+= addMonth(j,sDay,eDay)
+            else if j == end.m  && year == end.y      // last month of end year
+              //sDay = 1
+              sDay = 0        // because we have to count the difference between eDay and the last month's last day , not this month's first
+              eDay = end.d
+              subsum+= addMonth(j,sDay,eDay)
+            else                    // some month after the first one of start year  or  some month from end year before the end month
+              subsum+= addMonth(j)
+          
+          else if start.m==end.m  &&  start.y==end.y
+
+            sDay = start.d
+            eDay = end.d
+            subsum+= addMonth (j,sDay,eDay)
+                    
+        }
+
+        return subsum
+      }
+
+  /*
+      function prependMonths() {   // months to prepend (the ones from the first year in the given period)
+        
+        for ( j=start.m; j<=12; ) {
+          
+          m = j
+          if j == start.m
+            s = start.d
+            if ( j == 2 ) {
+              e = February(year).length  //29 or 28     
+            } else if (j==4 || j==6 || j==9 || j==11) {
+              e = 30
+            } else {
+              e = 31
+            }
+            subsum+= addMonth(m,s,e)
+          else if j >= start.d && j < 12
+            subsum+= addMonth(m)
+                    
+        }
+        return subsum
+      }
+  */
+
+      function addYear (year) {    // an entire year to add (not the first, not the last)
+
+        leap = February(year)==29
+        if ( leap )
+          yearTotal = 366
+        else
+          yearTotal = 365
+
+        return yearTotal
+      }
+
+  /*
+      function appendMonths () {    //months to append (the ones from the last year in the given period)
+        
+        for ( j=1; j<=end.m - 0; ) {
+          
+          m = j
+          if j == end.m
+            s = 1  
+            e = end.d
+            subsum+= addMonth(m,s,e)
+          else if j >= 1 && j < end.m
+            subsum+= addMonth(m)
+                    
+        }
+        return subsum
+      }
+  */
+
+
+
+
+
+      
 
   
   
 
-  for (let j = yearS; j <= yearE; j++) {
+
+  for (let j = start.y; j <= end.y; j++) {
 
     // make const ?
     let months = {
@@ -288,10 +426,10 @@ app.post("/date", function(req, res){
       11: november,
       12: december
     }
-
     //console.log(months["2"])
   
-  /*
+
+   /*
     let sum = 0
 
     console.log("sum="+sum+"dayS="+dayS+"dayE="+dayE)
@@ -302,9 +440,9 @@ app.post("/date", function(req, res){
 
     
     //for a next version :
-    //if (yearS == yearE) {
+    //if (start.y == end.y) {
     //the if(){} code below this comment
-    //} else if (yearS != yearE) {}
+    //} else if (start.y != end.y) {}
     
       if ( monthS != monthE ) {     // if period covers multiple months
 
@@ -348,6 +486,11 @@ app.post("/date", function(req, res){
     */
 
   }
+
+
+
+
+ // ---End Adding---
 
 
   //console.log(year)

@@ -1,3 +1,29 @@
+main loop, addMonths, addYear
+should work
+  for 3 years
+  for 2 years
+  for more years
+  for 1 year for several months
+
+  for 2 months
+
+  for 1 month
+
+addMonth
+should work for
+  1 month inside 1 year
+  ? 2 months inside 1 year ?
+  middle months
+
+
+
+exact difference should be fine for
+  entire middle years
+  entire middle months
+  the one-month case
+  first month
+  last month , while adding +1
+
 
 
 
