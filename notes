@@ -62,3 +62,22 @@ during one date difference calculation exactly one or zero swaps should occur
 
 
 
+
+
+
+
+
+
+another possible method
+
+2D array with simply values
+array [[jan,feb,...],[jan,feb,...],...] 
+
+
+for
+  for
+  to fill in the values like so  [[0,0,5,30,31,...],[31,30,...,..,..,..,..,..,..,..,..,..],[..,..,31,23,0,0],...]
+
+for
+  for
+  to sum all those

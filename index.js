@@ -265,7 +265,7 @@ app.post("/date", function(req, res){
       }
 
     } else if ( start.y == end.y ) {
-
+        
       sum+= addMonths ( start.m, end.m , year )
     
     } /* else 
@@ -279,22 +279,22 @@ app.post("/date", function(req, res){
     let monthTotal = 0
 
     let months = {
-      1: january,
-      2: February(s_y),
-      3: march,
-      4: april,
-      5: may,
-      6: june,
-      7: july,
-      8: august,
-      9: september,
-      10: october,
-      11: november,
-      12: december
+      1: january.length,
+      2: February(s_y).length,
+      3: march.length,
+      4: april.length,
+      5: may.length,
+      6: june.length,
+      7: july.length,
+      8: august.length,
+      9: september.length,
+      10: october.length,
+      11: november.length,
+      12: december.length
     }
   
     if ( !e ) {      // if only 2 params are present then add the whole month  (2nd param would be year)
-      monthTotal = months(m)
+      monthTotal = months[m]
       return monthTotal
     }
 
@@ -309,8 +309,10 @@ app.post("/date", function(req, res){
     let eDay
 
     for ( let j=s; j<=e; j++) {
+console.log(j+"\t"+s+"\t"+e+"\t"+subsum+"\t"+sDay, eDay+"\t"+start.m+"\t"+end.m )
 
       if (start.m != end.m  &&  start.y != end.y) {
+      // if ( s != e  &&  year != end.y)
       
         if (j == start.m  && year == start.y) {     // first month of start year
           sDay = start.d
@@ -336,8 +338,32 @@ app.post("/date", function(req, res){
         sDay = start.d
         eDay = end.d
         subsum+= addMonth (j,sDay,eDay)
-      }
-                
+
+
+      } else if ( start.m != end.m  &&  start.y == end.y ) {
+        if (j == start.m) {
+          sDay = start.d
+          if ( j == 2 ) {
+            eDay = February(year).length  //29 or 28     
+          } else if (j==4 || j==6 || j==9 || j==11) {
+            eDay = 30
+          } else {
+            eDay = 31
+          }
+          subsum+= addMonth(j,sDay,eDay)
+        } else if (j == end.m ) {
+          sDay = 0
+          eDay = end.d
+          subsum+= addMonth(j, sDay,eDay)
+        } else {
+          subsum+= addMonth(j, year)
+        }
+      } //???else if ( start.m == end.m  && start.y != end.y )
+               
+               
+
+
+
     }
 
     return subsum
@@ -362,16 +388,17 @@ app.post("/date", function(req, res){
 
 
   //console.log(year)
+  console.log ({"sum": sum})
 
   res.json({
-    "req.body":{
+    /*"req.body":{
       dayS:dayS,
       monthS:monthS,
       dayE:dayE,
       monthE:monthE,
       yearS:yearS,
       yearE:yearE
-    }
+    },*/
     "sum": sum
 
   })
