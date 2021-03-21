@@ -384,20 +384,29 @@ app.post("/date", function(req, res){
 
 
   //console.log(year)
-  console.log ({"sum": sum})
+  console.log ({"sum": sum});
 
-  res.json({
-    /*"req.body":{
-      dayS:dayS,
-      monthS:monthS,
-      dayE:dayE,
-      monthE:monthE,
-      yearS:yearS,
-      yearE:yearE
-    },*/
-    "sum": sum
+  
+  //res.json({
+  //  /*"req.body":{
+  //    dayS:dayS,
+  //    monthS:monthS,
+  //    dayE:dayE,
+  //    monthE:monthE,
+  //    yearS:yearS,
+  //    yearE:yearE
+  //  },*/
+  //  "sum": sum
+  //})
 
-  })
+
+   let str1 = start.d + "/" + start.m + "/" + "/" + start.y
+  let str2 = end.d + "/" + end.m + "/" + "/" + end.y
+  let str3 = " дни"
+  if (sum==1) str3 = " ден"
+  let responseString = "Разликата между " + str1 + " и " + str2 + " е " + sum + str3
+  res.send(responseString)
+
 
 
 })

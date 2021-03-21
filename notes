@@ -10,6 +10,8 @@ for another version:
 - maybe the 1 main loop and the 1 in addMonths can be abstracted away into one functionality
 - maybe everything can be done with less code   ?
 
+- choose between dates difference and inclusive number of dates 
+
 
 
 
